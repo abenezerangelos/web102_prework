@@ -94,7 +94,7 @@ const totalContributions = GAMES_JSON.reduce((total, game) => total + game.backe
 
 // set the inner HTML using a template literal and toLocaleString to get a number with commas
 contributionsCard.innerHTML = `
-    <p class="card-title">Total Contributions</p>
+    
     <p class="card-value">${totalContributions.toLocaleString()}</p>`;
 
 
@@ -104,13 +104,17 @@ const raisedCard = document.getElementById("total-raised");
 const totalRaised = GAMES_JSON.reduce((total, game) => total + game.pledged, 0);
 
 // set inner HTML using template literal
+raisedCard.innerHTML = `
+    
+    <p class="card-value">$${totalRaised.toLocaleString()}</p>`;
+
 
 
 // grab number of games card and set its inner HTML
 const gamesCard = document.getElementById("num-games");
 const totalGames = GAMES_JSON.length;
 gamesCard.innerHTML = `
-    <p class="card-title">Total Games</p>`
+    <p class="card-title">Total Games:${totalGames}</p>`
 
 
 /*************************************************************************************
