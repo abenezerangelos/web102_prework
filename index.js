@@ -232,3 +232,71 @@ secondGameElement.innerHTML = `
 `;
 
 secondGameContainer.appendChild(secondGameElement);
+//implement and add a search bar to the page
+/************************************************************************************
+ * Challenge 8: Implement a search function to find games by name
+ * Skills used: DOM manipulation, filter, event listeners
+*/
+
+
+
+
+var searchInput = document.getElementById("search-bar");
+// implement a search function that allows users to search for a game by name
+function searchGames() {
+    // grab the search input element
+    
+    
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    console.log(searchTerm);
+
+    // filter the games based on the search term
+    const filteredGames = GAMES_JSON.filter(game => game.name.toLowerCase().includes(searchTerm));
+
+    // clear the games container and add the filtered games to the page
+    deleteChildElements(gamesContainer);
+    addGamesToPage(filteredGames);
+}
+// grab the search button and add an event listener to it
+
+searchInput.addEventListener("click", searchGames);
+searchInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+        searchGames();
+    }
+});
+let arr=[1,2,3,4,5,6,7,8,9,10];
+const dict={};
+for (let num of arr) {
+    dict[num] = num * num;
+}
+if (10 in dict) {
+    console.log(`The square of 5 is ${dict[10]}`);
+}
+arr.splice(0, 5);
+while(dict && Object.keys(dict).length > 0) {
+    let key = Object.keys(dict)[0];
+    console.log(`The square of ${key} is ${dict[key]}`);
+    delete dict[key];
+}
+arr.push(11, 12, 13);
+arr.pop();
+arr.push(14, 15);
+var anotherArray = [];
+console.log(anotherArray.length)
+
+arr.coun
+ 
+let i= 0;
+for (let item of arr.slice(i , arr.length)){
+    console.log(item);
+    i++;
+}
+console.log(`The final array is: ${arr},${typeof arr}`);
+arr.values()
+
+arr.includes(10) ? console.log("10 is in the array") : console.log("10 is not in the array");
+
+arr.filter(item => item > 5).forEach(item => console.log(`Filtered item: ${item}`));
+console.log(arr.filter(item => item > 5));
+console.log(dict[-1]== undefined);

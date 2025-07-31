@@ -5,6 +5,35 @@ body {
     background-color: #758190;
 }
 
+#search-results {
+    background-color: #FFFFFF;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #000000;
+    position: absolute;
+    top: 75px;
+    left: 50%;
+    transform: translateX(-118%);
+    width: 300px;
+    max-height: auto;
+    overflow-y: auto;
+    margin-left: 50%;
+}
+#search-bar {
+    width: 300px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin: 10px  0;
+    margin-left: 50%;
+
+    box-shadow: 0 0 10px #000000;
+    
+    
+    /* align-content: end; */
+    
+    
+}
 #tentacles {
     width: 50px;
 }
