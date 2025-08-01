@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width">
+    <link href="homepage.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+    <!-- header row with logo -->
+    <div class="header"> 
+        <a class="header-link" href="homepage.html">
+            <img id="tentacles" src="assets/tentacles.png">
+            <h1 class="header-text" >Sea Monster Crowdfunding</h1>
+            </a>
+            
+    </div>
+    <h1 style="text-align: center;  color: #ADD8E6;" class="welcome-text"  >Welcome to Sea Monster!</h1>
+
+    <h3 style="text-align: center; text-decoration-color: antiquewhite; text-decoration: transparent;" class="prompt-text">Enter your username and password, to either sign up or sign in.</h3>
+
+    <div class="card" data-auth="signed-out">
+    <h2>Sign up</h2>
+    <form id="signup-form">
+      <input name="email" type="email" placeholder="you@example.com" required>
+      <input name="password" type="password" placeholder="Create password" required minlength="8">
+      <button>Sign up</button>
+    </form>
+    <hr>
+    <h2>Sign in</h2>
+    <form id="signin-form">
+      <input name="email" type="email" placeholder="you@example.com" required>
+      <input name="password" type="password" placeholder="Your password" required>
+      <button>Sign in</button>
+    </form>
+  </div>
+
+    </body>
+     
+    <script src="homepage.js"></script>
+
+</html>

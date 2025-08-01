@@ -259,12 +259,18 @@ function searchGames() {
 }
 // grab the search button and add an event listener to it
 
-searchInput.addEventListener("click", searchGames);
+
+
 searchInput.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
         searchGames();
     }
 });
+
+
+
+
+
 let arr=[1,2,3,4,5,6,7,8,9,10];
 const dict={};
 for (let num of arr) {

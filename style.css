@@ -28,6 +28,7 @@ body {
     margin-left: 50%;
 
     box-shadow: 0 0 10px #000000;
+
     
     
     /* align-content: end; */
@@ -46,6 +47,37 @@ body {
     margin-left: -10px;
     margin-right: -10px;
     margin-top: -10px;
+}
+.header-text {
+    font-size: 30px;
+    color: #827e7d;
+    align-items: center;
+    
+    margin-right: 10px;
+
+    display: flex;
+}
+.a[href="homepage.html"] {
+    text-decoration: none;
+    color: inherit;
+    justify-content: center;
+    justify-self: center;
+    
+    
+}
+.header-link{
+    text-decoration: none;
+    color: inherit;
+    display: flex;  
+    align-items: center;
+    
+    
+
+}
+.header-link:hover {
+    text-decoration: none;
+    color: inherit;
+    box-shadow: #000000 0 0 10px;
 }
 
 .stats-container {

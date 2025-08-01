@@ -1,0 +1,90 @@
+#tentacles {
+    width: 50px;
+    
+    
+}
+
+.header {
+    
+    background-color: lightblue;
+    padding: 1%;
+    align-items: center;
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-top: -10px;
+    align-content: center;
+    text-align: center;
+}
+ 
+.header-text {
+    font-size: 30px;
+    color: #827e7d;
+    
+    
+    margin-right: 10px;
+    
+    display: flex;
+    justify-content: center;
+    
+
+}
+
+a[href="homepage.html"] {
+    text-decoration: none;
+    color: inherit;
+    justify-content: center;
+    justify-self: center;
+    
+    
+}
+.header-link{
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 27%;
+
+}
+.header-link:hover {
+    text-decoration: none;
+    color: inherit;
+    box-shadow: #000000 0 0 10px;
+}
+body {
+    font-family: 'Cabin';
+    background-color: #758190;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+}
+.card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    width: 300px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
