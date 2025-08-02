@@ -28,6 +28,7 @@ body {
     margin-left: 50%;
 
     box-shadow: 0 0 10px #000000;
+    display: block;
 
     
     
@@ -36,7 +37,7 @@ body {
     
 }
 #tentacles {
-    width: 50px;
+    width: 50px; 
 }
 
 .header {

@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+    
     <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width">
-    <link href="homepage.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="homepage.css" rel="stylesheet" type="text/css" /> 
+
     </head>
     <body>
     <!-- header row with logo -->
@@ -14,28 +17,40 @@
             </a>
             
     </div>
-    <h1 style="text-align: center;  color: #ADD8E6;" class="welcome-text"  >Welcome to Sea Monster!</h1>
-
-    <h3 style="text-align: center; text-decoration-color: antiquewhite; text-decoration: transparent;" class="prompt-text">Enter your username and password, to either sign up or sign in.</h3>
+    <hr>
+    <h1 style="text-align: center;  color: #ADD8E6;  font-size: 4em;" class="welcome-text"  >Welcome to Sea Monster Crowdfunding homepage!</h1>
+    <br>
+    <h2 style="text-align: center; text-decoration-color: antiquewhite; text-decoration: underline; font-size: 3em; font-style: bold;" class="prompt-text">Sign up/Sign in</h2>
 
     <div class="card" data-auth="signed-out">
-    <h2>Sign up</h2>
+    <br>
+    <br>
+    <br>
+    <h3 style= "vertical-align: top;  font-weight: bold; color:#bcf0ff;">Enter your username and password, to either sign up or sign in.</h3>
     <form id="signup-form">
       <input name="email" type="email" placeholder="you@example.com" required>
       <input name="password" type="password" placeholder="Create password" required minlength="8">
-      <button>Sign up</button>
+      <br>
+      <div class="button-group">
+        <button id="signup-btn">Sign up</button>
+        <button id="signin-btn">Sign in</button>
+      </div>
     </form>
-    <hr>
-    <h2>Sign in</h2>
-    <form id="signin-form">
-      <input name="email" type="email" placeholder="you@example.com" required>
-      <input name="password" type="password" placeholder="Your password" required>
-      <button>Sign in</button>
-    </form>
+    <br>
   </div>
 
+    <div id="toast" role="status" aria-live="polite"></div>
     </body>
-     
-    <script src="homepage.js"></script>
+
+
+
+    
+    <button id="signout-btn">Sign out</button>
+
+    
+
+
+
+    <script type="module" src="homepage.js"></script>
 
 </html>

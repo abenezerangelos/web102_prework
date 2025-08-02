@@ -252,15 +252,29 @@ function searchGames() {
 
     // filter the games based on the search term
     const filteredGames = GAMES_JSON.filter(game => game.name.toLowerCase().includes(searchTerm));
-
+     
     // clear the games container and add the filtered games to the page
     deleteChildElements(gamesContainer);
     addGamesToPage(filteredGames);
 }
 // grab the search button and add an event listener to it
+function addGamesToUl() {
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    console.log(searchTerm);  // filter the games based on the search term
+    let filteredGames = GAMES_JSON.filter(game => game.name.toLowerCase().startsWith(searchTerm));
+    const ul = document.getElementById("search-menu");
+    if (!ul) return;
+    deleteChildElements(ul);
+    filteredGames.forEach(game => {
+        const li = document.createElement("li");
+        li.innerText = game.name;
+        li.innerHTML += `<span class="game-pledged">$${game.pledged.toLocaleString()}</span>`;
+        li.value =1;
+        ul.appendChild(li);
+    });
+}
 
-
-
+searchInput.addEventListener("input", addGamesToUl);
 searchInput.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
         searchGames();

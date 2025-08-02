@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+     
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
 
@@ -14,9 +16,23 @@
             <img id="tentacles" src="assets/tentacles.png">
             <h1 class="header-text" >Sea Monster Crowdfunding</h1>
             </a>
-         
-        <input type="text" id="search-bar" placeholder="Search for a game..." />
-        <display-listitem id="search-results"></display-listitem>
+
+        <div class="container py-4 d-flex justify-content-center align-items-end" style="max-width: fit-content; margin-bottom: 10px; margin-top: 0; border: none;">
+            <div class="searchbox" style="position: relative; width: 100%; display: flex; flex-direction: column; justify-content: flex-end;">
+            <input id="search-bar" class="form-control" style="margin: 0;" placeholder="Search for a game..." autocomplete="on" aria-expanded="false" aria-controls="search-menu" aria-haspopup="listbox">
+            <ul id="search-menu" role="listbox" style="background-color: wheat; z-index: 2000; position: absolute; top: 100%; left: 0; width: 100%; margin: 0;">
+            <li class="dropdown-item" role="option" style="display: block; background-color: inherit;" hidden>
+            trial
+            </li>
+            <li class="dropdown-item" role="option" style="display: block;">
+            adventure
+            </li>
+            </ul>
+            </div>
+        </div>
+            </ul>
+            </div>
+        </div>
     </div>
 
     <!-- background info about company -->

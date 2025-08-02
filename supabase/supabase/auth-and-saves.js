@@ -25,25 +25,7 @@ function showAuthState(signedIn) {
   document.querySelectorAll('[data-auth="signed-out"]').forEach(e => e.style.display = signedIn ? "none" : "");
 }
 
-// 3) AUTH API ————————————————
-export async function signup(email, password) {
-  const { error } = await supabase.auth.signUp({ email, password });
-  if (error) throw error;
-  else {
-    document.querySelector("#signup-form")?.reset();
-  }
-  toast("Check your email to confirm your account.");
-}
-export async function signin(email, password) {
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) throw error; 
-  toast("Signed in");
-}
-export async function signout() {
-  const { error } = await supabase.auth.signOut();
-  if (error) throw error;
-  toast("Signed out");
-}
+ 
 export async function currentUser() {
   const { data: { user } } = await supabase.auth.getUser();
   return user;
@@ -87,22 +69,7 @@ async function init() {
   const user = await currentUser();
   showAuthState(!!user);
 
-  // form handlers (if present)
-  $("#signup-form")?.addEventListener("submit", async (e)=>{
-    e.preventDefault();
-    const email = (e.target.querySelector('input[name="email"]')?.value || "").trim();
-    const password = e.target.querySelector('input[name="password"]')?.value || "";
-    try { await signup(email, password); } catch (err) { toast(err.message, "error"); }
-  });
-  $("#signin-form")?.addEventListener("submit", async (e)=>{
-    e.preventDefault();
-    const email = (e.target.querySelector('input[name="email"]')?.value || "").trim();
-    const password = e.target.querySelector('input[name="password"]')?.value || "";
-    try { await signin(email, password); } catch (err) { toast(err.message, "error"); }
-  });
-  $("#signout-btn")?.addEventListener("click", async ()=>{
-    try { await signout(); } catch (err) { toast(err.message, "error"); }
-  });
+   
 
   // demo save/load wiring
   $("#save-btn")?.addEventListener("click", async ()=>{
