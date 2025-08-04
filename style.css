@@ -40,10 +40,10 @@ body {
     width: 50px; 
 }
 
-.header {
+.header { 
     display: flex;
     background-color: lightblue;
-    padding: 1%;
+     
     align-items: center;
     margin-left: -10px;
     margin-right: -10px;

@@ -32,9 +32,9 @@ export async function signup(email, password) {
 export async function signin(email, password) {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) throw error; 
-  else {    
-    // window.location.href = "index.html";
-    document.location.replace("index.html");
+  else {
+    location.href = "index.html";    
+// redirect to homepage after sign-in
   }
   toast("Signed in");
 }

@@ -273,7 +273,7 @@ function addGamesToUl() {
         ul.appendChild(li);
     });
 }
-
+searchGames();
 searchInput.addEventListener("input", addGamesToUl);
 searchInput.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
