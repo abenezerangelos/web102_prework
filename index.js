@@ -259,17 +259,45 @@ function searchGames() {
 }
 // grab the search button and add an event listener to it
 function addGamesToUl() {
+    const UlElement = document.getElementById("search-menu");
+    UlElement.hidden = false; // show the search menu
     const searchTerm = searchInput.value.toLowerCase().trim();
     console.log(searchTerm);  // filter the games based on the search term
     let filteredGames = GAMES_JSON.filter(game => game.name.toLowerCase().startsWith(searchTerm));
+    if (searchTerm === "") {
+        filteredGames =  [];
+    }
     const ul = document.getElementById("search-menu");
     if (!ul) return;
     deleteChildElements(ul);
     filteredGames.forEach(game => {
         const li = document.createElement("li");
-        li.innerText = game.name;
-        li.innerHTML += `<span class="game-pledged">$${game.pledged.toLocaleString()}</span>`;
-        li.value =1;
+        li.style.height = "40px";
+        li.style.display = "flex";
+        li.style.alignItems = "center";
+
+        const img = document.createElement("img");
+        li.style.display = "flex";
+        li.style.flexDirection = "row"; // Ensure the image and text are in a row
+ 
+        img.src = game.img;
+        img.style.width = "70px";
+        img.style.height = "40px";
+        img.style.marginRight = "10px";
+        img.style.alignSelf = "center";
+        img.alt = game.name;
+
+        li.appendChild(img); // Append the image first
+        const textNode = document.createTextNode(game.name); // Create a text node for the game name
+        li.appendChild(textNode); // Append the text after the image
+        li.classList.add("dropdown-item");
+        li.role = "button";
+        li.tabIndex = 0; // Make it focusable
+        li.addEventListener("click", () => {
+            searchInput.value = game.name; // set the input value to the selected game name
+            searchGames(); // call the search function to display the game
+            ul.hidden = true; // hide the search menu after selection
+        });
         ul.appendChild(li);
     });
 }

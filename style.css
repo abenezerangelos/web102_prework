@@ -143,3 +143,14 @@ button {
     margin: 1%;
     border-radius: 7px;
 }
+ 
+li.dropdown-item { 
+    cursor: pointer;
+    border-radius: 4px; 
+}
+li.dropdown-item:hover {
+    background-color: #e2e6ea;
+}
+li.dropdown-item:focus {
+    outline: 2px solid blue;
+}
