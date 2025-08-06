@@ -45,7 +45,19 @@ export async function signout() {
 }
 export async function currentUser() {
   const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user: userProfile } } = await supabase.auth.getUser();
+   
+  userProfile.username= userProfile.email.split("@")[0]; // use email prefix as user ID
+  user.username = userProfile.username ;// default to "Guest" if no username
+  console.log("Current user:", userProfile);
+  console.log("Current user2:", user);
   return user;
+}
+export async function redirectToHomepage() {
+  const user = await currentUser();
+  if (!user) {
+    location.href = "homepage.html";
+  }
 }
 
 async function init() {
@@ -58,6 +70,8 @@ async function init() {
   // initial render
   const user = await currentUser();
   showAuthState(!!user);
+
+ 
 
   // form handlers (if present)
   $("#signup-btn")?.addEventListener("click", async (e)=>{

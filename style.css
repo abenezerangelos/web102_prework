@@ -58,7 +58,7 @@ body {
 
     display: flex;
 }
-.a[href="homepage.html"] {
+a {
     text-decoration: none;
     color: inherit;
     justify-content: center;
@@ -78,7 +78,7 @@ body {
 .header-link:hover {
     text-decoration: none;
     color: inherit;
-    box-shadow: #000000 0 0 10px;
+    box-shadow: #000000 0 0 5px;
 }
 
 .stats-container {
