@@ -59,7 +59,10 @@ function addGamesToPage(games) {
         // set the inner HTML using a template literal to display some info 
         // about each game
         element.innerHTML = `
+        <div class='game-img-card'>
             <img class='game-img' src="${game.img}" alt="${game.name} image" />
+            <img class='save-icon' src="assets/bookmark.png" alt="Save icon" aria-hidden="true"/>
+        </div>
             <h2 class='game-name'>${game.name}</h2>
             <p class='game-description'>${game.description}</p>
             <p class='game-pledged'>Pledged: $${game.pledged.toLocaleString()}</p>
@@ -67,14 +70,14 @@ function addGamesToPage(games) {
             p>
             <p class='game-backers'>Backers: ${game.backers.toLocaleString()}</p>
         `;  
-        const img = element.querySelector('.game-img');
+         
 
          
         // TIP: if your images are not displaying, make sure there is space
         // between the end of the src attribute and the end of the tag ("/>")
 
         // append the game to the games-container
-            gamesContainer.appendChild(element);
+        gamesContainer.appendChild(element);
 
 }
 }
@@ -278,9 +281,11 @@ function addGamesToUl() {
     deleteChildElements(ul);
     filteredGames.forEach(game => {
         const li = document.createElement("li");
+        li.id = "search-item";
         li.style.height = "40px";
         li.style.display = "flex";
         li.style.alignItems = "center";
+        li.style.position = "relative";
 
         const img = document.createElement("img");
         li.style.display = "flex";
@@ -293,7 +298,13 @@ function addGamesToUl() {
         img.style.alignSelf = "center";
         img.alt = game.name;
 
+        const saveIcon = document.createElement("img");
+        saveIcon.className = "save-icon";
+        saveIcon.src = "assets/bookmark.png";
+        saveIcon.alt = "Save icon"; 
+
         li.appendChild(img); // Append the image first
+        li.appendChild(saveIcon); // Append the save icon
         const textNode = document.createTextNode(game.name); // Create a text node for the game name
         li.appendChild(textNode); // Append the text after the image
         li.classList.add("dropdown-item");

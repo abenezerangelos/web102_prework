@@ -16,15 +16,33 @@
             <img id="tentacles" src="assets/tentacles.png"  >
             <h1 class="header-text" >Sea Monster Crowdfunding</h1>
             </a>
-            <figure style="flex-grow: 1; display: flex; justify-content: center; align-items: center; align-self: center; margin-bottom: 0px;">
-                <a class="user-link" href="homepage.html">
-                    <img id="user-icon" src="assets/download.svg" style="width: 50px; height: 50px; background-color: #ADD8E6; border-radius: 50%; justify-self: center; align-self: center; ">
-                    <figcaption id="user-name" style="color: #23a4ff; font-size: 10px; font-weight: bold; justify-self: center; ">   </figcaption>
-                </a>
+            <!-- User icon as a button with dropdown menu -->
+            <div style="flex-grow: 1; display: flex; position: relative; justify-content: center; align-items: center; align-self: center; margin-bottom: 0px;">
+                <button id="user-dropdown-btn" type="button" style="background: none; border: none; padding: 0; cursor: pointer;align-self: center; vertical-align: bottom;">
+                    <img id="user-icon" src="assets/download.svg" style="width: 75px; height: 75px; background-color: #ADD8E6; border-radius: 50%;">
+                    <figcaption id="user-name" style="color: #23a4ff; font-size: 10px; font-weight: bold; text-align: center;"></figcaption>
+                </button>
+                 
+                <ul id="user-dropdown-menu" class="dropdown-menu" style="display: flex; flex-direction: column;position: absolute; top:97px; justify-self: start; padding:0px 0px; background-color:#758190">
+                    <li style="padding: 8px 16px; cursor: pointer;">Saved Games</li>
+                    <li style="padding: 8px 16px; cursor: pointer;">Preferences</li>
+                    <li style="padding: 8px 16px; cursor: pointer; background-color: red;text-shadow: #fff7f7 1px 1px 10px;">Logout</li>
+                </ul>
+            </div>
+            <script>
+              const btn = document.getElementById('user-dropdown-btn');
+              const menu = document.getElementById('user-dropdown-menu');
+              btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+              });
+              document.addEventListener('click', () => {
+                menu.style.display = 'none';
+              });
+            </script>
+            
+            <!-- make a dropdown menu right underneath the logo without affecting the display of the header or any other of the header childelements and it has to be at the center of the page just with its icon -->
 
-            </figure>
-
-             
              
 
         <div class="container py-4 d-flex justify-end align-items-end" style="max-width: fit-content; margin:10px 1em 0px auto; border: none;">

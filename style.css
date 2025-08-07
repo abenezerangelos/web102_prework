@@ -69,16 +69,25 @@ a {
 .header-link{
     text-decoration: none;
     color: inherit;
-    display: flex;  
+    display: inline-flex;
     align-items: center;
+    max-width: fit-content;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    flex: 0 0 auto;
     
     
 
 }
-.header-link:hover {
+.header-link:hover .header-text {
     text-decoration: none;
     color: inherit;
-    box-shadow: #000000 0 0 5px;
+    text-shadow: #000000 0 0 10px;
+} 
+.header-link:hover #tentacles{  
+    filter: drop-shadow(0 0 10px #000000);
+
 }
 
 .stats-container {
@@ -88,8 +97,7 @@ a {
 
     
 }
-.stats-container:hover {
-    cursor: pointer;
+.stats-container:hover { 
     box-shadow: 0 0 30px lightblue;
 }
 
@@ -127,8 +135,7 @@ a {
     border-radius: 7px;
 }
 
-.game-card:hover {
-    cursor: pointer;
+.game-card:hover { 
     box-shadow: 0 0 30px lightblue;
 }
 
@@ -146,11 +153,102 @@ button {
  
 li.dropdown-item { 
     cursor: pointer;
-    border-radius: 4px; 
+    border-radius: 4px;
+    height: fit-content; 
+    text-wrap: wrap;
 }
 li.dropdown-item:hover {
     background-color: #e2e6ea;
 }
 li.dropdown-item:focus {
-    outline: 2px solid blue;
+    outline: thin 1px #000000;
+    box-shadow: 0 0 5px #000000;
 }
+ 
+#user-icon {
+    display:block;
+    border-radius:  50%;
+    outline:4px solid #23a4ff;
+    outline-offset: -4.25px;
+}
+#user-dropdown-btn:hover #user-name  { 
+    -webkit-text-stroke: 0.15px #23a4ff; 
+    text-shadow: 0 0 5px #23a4ff;
+    paint-order: stroke fill;
+}
+#user-dropdown-btn:hover #user-icon  {
+    box-shadow: 0 0 10px #23a4ff;
+    cursor: pointer;
+}
+#user-dropdown-menu li {
+    background-color: #ADD8E6; 
+    border: #000000 1px solid;
+    border-radius: 4px;
+}
+#user-dropdown-menu li:hover{
+    text-shadow: #0095ff 0 0 10px;
+    color:white; 
+}
+.game-img-card{
+  position:relative;          /* anchor for absolute overlay */
+  display:inline-block;       /* shrink to the image’s natural width */
+  line-height:0;              /* remove inline-image gaps */
+  border-radius:12px;         /* optional rounding for the photo */
+  overflow:hidden;            /* clip the overlay if it slides outside */
+}
+
+/* ———- 2.  BASE PHOTO  ——— */
+.game-img-card > img.game-img{
+  display:block;
+  max-width:100%;             /* responsive */
+  height:auto;
+    /* optional glow */
+}
+
+/* ———- 3.  BOOKMARK OVERLAY  ——— */
+.game-img-card > img.save-icon{
+  position:absolute;
+  /* place it in the corner, inset a little */
+  top:.5rem;                  /* ↙ adjust these two values */
+  right:0.25rem;
+
+  width:clamp(28px, 9%, 42px);/* scales with photo but never too tiny/huge */
+  aspect-ratio: 1/1;
+  aspect-ratio:1;
+  opacity:1;                 /* watermark look — lower = lighter */
+  pointer-events: visibleFill; /* optional white outline */
+  border-radius: 4px; 
+  transition: .2s ease; 
+  /* optional glow that hugs the transparent shape */
+  
+}
+.game-img-card > img.save-icon:hover,.game-img-card > img.save-icon:focus-visible {
+  box-shadow: 0 0 5px rgba(255, 255, 255);
+   
+  filter: invert(1) hue-rotate(180deg);
+   
+  cursor: pointer;
+}
+#search-item > img.save-icon {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    opacity: 0.5;
+    position: absolute;
+    left: 19.5px;
+    bottom: 3px; 
+    aspect-ratio: 1/1; 
+      
+
+}
+#search-item > img.save-icon:hover, #search-item > img.save-icon:focus-visible {
+ 
+    opacity: 1;
+    transition: opacity 0.2s ease;
+    filter:drop-shadow(1px 1px 1px #000000)  invert(1) hue-rotate(180deg) ;
+    border-radius: 4px;
+    cursor: pointer; 
+
+
+}
+ 
