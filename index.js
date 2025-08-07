@@ -8,6 +8,7 @@
 import GAMES_DATA from './games.js';
 import { currentUser } from './homepage.js';   
 import { redirectToHomepage } from './homepage.js';
+import { signout } from './homepage.js';
 
 
 // create a list of objects to store the data about the games using JSON.parse
@@ -325,14 +326,26 @@ searchInput.addEventListener("keypress", (event) => {
         searchGames();
     }
 });
+document.addEventListener("DOMContentLoaded", redirectToHomepage);
 const {username} = await currentUser();
 console.log("This current user:", username);
 const userNameElement = document.getElementById("user-name");
 userNameElement.textContent = username || "Guest"; // default to "Guest" if no username
 
+const signoutBtn = document.getElementById("signout-btn");
+signoutBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    try {
+        await signout();
+        location.href = "homepage.html"; // redirect to homepage after sign-out
+    } catch (error) {
+        console.error("Sign out failed:", error);
+    }
+});
+
 
  
-document.addEventListener("DOMContentLoaded", redirectToHomepage);
+ 
 
 let arr=[1,2,3,4,5,6,7,8,9,10];
 const dict={};

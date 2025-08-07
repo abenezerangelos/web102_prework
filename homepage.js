@@ -47,8 +47,8 @@ export async function currentUser() {
   const { data: { user } } = await supabase.auth.getUser();
   const { data: { user: userProfile } } = await supabase.auth.getUser();
    
-  userProfile.username= userProfile.email.split("@")[0]; // use email prefix as user ID
-  user.username = userProfile.username ;// default to "Guest" if no username
+  if (!!userProfile) userProfile.username= userProfile?.email.split("@")[0]; // use email prefix as user ID
+  if (!!user) user.username = userProfile?.username ;// default to "Guest" if no username
   console.log("Current user:", userProfile);
   console.log("Current user2:", user);
   return user;

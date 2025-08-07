@@ -3,6 +3,7 @@
 body {
     font-family: 'Cabin';
     background-color: #758190;
+    position: absolute; 
 }
 
 #search-results {
@@ -250,5 +251,26 @@ li.dropdown-item:focus {
     cursor: pointer; 
 
 
+}
+.saved-games-header {
+    font-size: 2rem;
+    color: #FFFFFF;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    justify-self: center;
+    align-self: center;
+    position: relative;
+    left:43%; 
+
+
+
+    
+}
+div .card{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    position:relative;
 }
  
