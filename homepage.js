@@ -3,7 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 // 1) CONFIG ————————————————
 const SUPABASE_URL = "https://fkmqzpqjaqsnbrugkblv.supabase.co";          // ← replace
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZrbXF6cHFqYXFzbmJydWdrYmx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwNTAzOTMsImV4cCI6MjA2OTYyNjM5M30.0ot_CvL5S_E8v6dqNs0qQ4eBAPoY0waHGKlbn6s_H-M";                 // ← replace
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // 2) DOM HELPERS ————————————————
 const $ = (sel) => document.querySelector(sel);

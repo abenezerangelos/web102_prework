@@ -9,6 +9,8 @@ import GAMES_DATA from './games.js';
 import { currentUser } from './homepage.js';   
 import { redirectToHomepage } from './homepage.js';
 import { signout } from './homepage.js';
+import { supabase } from './homepage.js';
+
 
 
 // create a list of objects to store the data about the games using JSON.parse
@@ -61,7 +63,7 @@ function addGamesToPage(games) {
         // about each game
         element.innerHTML = `
         <div class='game-img-card'>
-            <img class='game-img' src="${game.img}" alt="${game.name} image" />
+            <img class='game-img' src="${game.img}" alt="${game.name}" />
             <img class='save-icon' src="assets/bookmark.png" alt="Save icon" aria-hidden="true"/>
         </div>
             <h2 class='game-name'>${game.name}</h2>
@@ -266,6 +268,7 @@ function searchGames() {
     // clear the games container and add the filtered games to the page
     deleteChildElements(gamesContainer);
     addGamesToPage(filteredGames);
+    clickHandler(); // Re-attach click handlers to save icons after filtering
 }
 // grab the search button and add an event listener to it
 function addGamesToUl() {
@@ -324,13 +327,16 @@ searchInput.addEventListener("input", addGamesToUl);
 searchInput.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
         searchGames();
+        // clickHandler(); // Call clickHandler to add event listeners to save icons
+
+          
     }
 });
 document.addEventListener("DOMContentLoaded", redirectToHomepage);
-const {username} = await currentUser();
-console.log("This current user:", username);
+var user = await currentUser();
+console.log("This current user:", user);
 const userNameElement = document.getElementById("user-name");
-userNameElement.textContent = username || "Guest"; // default to "Guest" if no username
+userNameElement.textContent = user.username || "Guest"; // default to "Guest" if no username
 
 const signoutBtn = document.getElementById("signout-btn");
 signoutBtn.addEventListener("click", async (e) => {
@@ -338,18 +344,59 @@ signoutBtn.addEventListener("click", async (e) => {
     try {
         await signout();
         location.href = "homepage.html"; // redirect to homepage after sign-out
+        
     } catch (error) {
         console.error("Sign out failed:", error);
     }
 });
+async function saveGame(gameName, saveIcon) {
+    const { data, error } = await supabase.from("saved_games").select('game_name');
 
+    // Check if the game is already saved
+    const storage = data || [];
+    console.log(`Print out: ${data}, ${storage}, ${data.length}`);
+    if (!(gameName in data)) {
+        // If not saved, save the game
+        const { data, error } = await supabase.from("saved_games").insert({ game_name: [gameName], user_id: user.id, user_name: user.username, updated_at: new Date().toISOString() });
+
+        console.log(`user_id: ${user.id}, username: ${user.username}`);
+        console.log(`Game ${gameName} saved successfully!`);
+        saveIcon.src = "assets/saved-icon.png"; // Change icon to filled
+        if (!!error) {
+            console.error('Insert failed', { status, code: error.code, message: error.message, details: error.details, hint: error.hint });
+            return;
+        }
+
+    }
+    else{
+         console.log(await supabase.from("saved_games").select('game_name')[data]);
+    }
+    const { data: savedGames, error: fetchError } = await supabase.from("saved_games").select('game_name').eq('user_id', user.id);
+    console.log(savedGames);
+
+     
+}    
 
  
- 
+function clickHandler(){
+    var gamecardsave = document.querySelectorAll(".game-img-card> img.save-icon");
+    gamecardsave.forEach((saveIcon) => {
+        saveIcon.addEventListener("click", (e) => {
+            const gameName = e.target.closest('.game-card').querySelector('img.game-img').alt;
+            console.log(gameName); 
+
+            console.log(`Save icon clicked for game: ${gameName}`);
+            saveGame(gameName, saveIcon);
+            // Update alt text
+        });
+    });
+} 
+clickHandler(); // Call clickHandler to add event listeners to save icons
 
 let arr=[1,2,3,4,5,6,7,8,9,10];
 const dict={};
 for (let num of arr) {
+
     dict[num] = num * num;
 }
 if (10 in dict) {
