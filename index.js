@@ -11,8 +11,14 @@ import { redirectToHomepage } from './homepage.js';
 import { signout } from './homepage.js';
 import { supabase } from './homepage.js';
 
-
-
+document.addEventListener("DOMContentLoaded", redirectToHomepage);
+var user = await (async () => {
+    var user = await currentUser();
+    console.log("This current user:", user);
+    const userNameElement = document.getElementById("user-name");
+    userNameElement.textContent = user.username || "Guest"; // default to "Guest" if no username
+    return user;
+})(); 
 // create a list of objects to store the data about the games using JSON.parse
 const GAMES_JSON = JSON.parse(GAMES_DATA)
 
@@ -83,6 +89,8 @@ function addGamesToPage(games) {
         gamesContainer.appendChild(element);
 
 }
+loader();
+clickHandler();
 }
 addGamesToPage(GAMES_JSON); // call the function to add the games to the page
 
@@ -268,7 +276,7 @@ function searchGames() {
     // clear the games container and add the filtered games to the page
     deleteChildElements(gamesContainer);
     addGamesToPage(filteredGames);
-    clickHandler(); // Re-attach click handlers to save icons after filtering
+      // Re-attach click handlers to save icons after filtering
 }
 // grab the search button and add an event listener to it
 function addGamesToUl() {
@@ -331,12 +339,8 @@ searchInput.addEventListener("keypress", (event) => {
 
           
     }
-});
-document.addEventListener("DOMContentLoaded", redirectToHomepage);
-var user = await currentUser();
-console.log("This current user:", user);
-const userNameElement = document.getElementById("user-name");
-userNameElement.textContent = user.username || "Guest"; // default to "Guest" if no username
+}); 
+ 
 
 const signoutBtn = document.getElementById("signout-btn");
 signoutBtn.addEventListener("click", async (e) => {
@@ -350,40 +354,100 @@ signoutBtn.addEventListener("click", async (e) => {
     }
 });
 async function saveGame(gameName, saveIcon) {
-    const { data, error } = await supabase.from("saved_games").select('game_name');
+    const { data, error } = await supabase.from("saved_games").select('game_name').eq('user_id', user.id);
 
     // Check if the game is already saved
-    const storage = data || [];
-    console.log(`Print out: ${data}, ${storage}, ${data.length}`);
-    if (!(gameName in data)) {
-        // If not saved, save the game
+    const storage =  JSON.stringify(data)  || [];
+
+    console.table(`Print out:${data.length}   first data, ${storage} `);
+    var collector=new Set(); 
+    if (data.length === 0) {
+        console.log(`No saved games found for user: ${user.id}`);
         const { data, error } = await supabase.from("saved_games").insert({ game_name: [gameName], user_id: user.id, user_name: user.username, updated_at: new Date().toISOString() });
-
-        console.log(`user_id: ${user.id}, username: ${user.username}`);
-        console.log(`Game ${gameName} saved successfully!`);
-        saveIcon.src = "assets/saved-icon.png"; // Change icon to filled
-        if (!!error) {
-            console.error('Insert failed', { status, code: error.code, message: error.message, details: error.details, hint: error.hint });
-            return;
-        }
-
     }
     else{
-         console.log(await supabase.from("saved_games").select('game_name')[data]);
+        console.log(`Saved games found for user: ${user.id}`);
+        for (const item of data[0].game_name) {
+            console.log(`Game name: ${item }`);
+            collector.add(item );
+        }
+
+     
+
+        if (!(collector.has(gameName))) {
+            // If not saved, save the game
+            const { data, error} = await supabase.from("saved_games").update({game_name: [...collector, gameName], updated_at: new Date().toISOString()}).eq('user_id', user.id);
+            console.log(`user_id: ${user.id}, username: ${user.username}`);
+            console.log(`Game ${gameName} saved successfully!`);
+             
+            if (!!error) {
+                console.error('Insert failed', { status, code: error.code, message: error.message, details: error.details, hint: error.hint });
+                return;
+            }
+
+        }
+        else{
+            console.log(await supabase.from("saved_games").select('game_name') );
+        }
     }
-    const { data: savedGames, error: fetchError } = await supabase.from("saved_games").select('game_name').eq('user_id', user.id);
-    console.log(savedGames);
+    saveIcon.src = "assets/saved-icon.png"; // Change icon to filled
+    console.log(`Game ${gameName} saved successfully!`);
+    const {data: go, error: stop} = await supabase.from("saved_games").select('game_name').eq('user_id', user.id);
+    console.log(go[0].game_name);
 
      
 }    
+async function deleteSavedGame(gameName) {
+    const { data, error } = await supabase.from("saved_games").select('game_name').eq('user_id', user.id);
 
- 
+    if (error) {
+        console.error("Error fetching saved games:", error);
+        return;
+    }
+
+    const gameToDelete = data.find(item => item.game_name === gameName);
+    if (gameToDelete) {
+        const { error: deleteError } = await supabase.from("saved_games").delete().eq('id', gameToDelete.id);
+        if (deleteError) {
+            console.error("Error deleting saved game:", deleteError);
+        } else {
+            console.log(`Game deleted successfully: ${gameName}`);
+        }
+    } else {
+        console.log(`Game not found: ${gameName}`);
+    }
+}
+async function loader(){
+    var gamecardsave = document.querySelectorAll(".game-img-card> img.save-icon");
+    const { data, error } = await supabase.from("saved_games").select('game_name').eq('user_id', user.id);
+    gamecardsave.forEach((saveIcon) => {
+        const gameName = saveIcon.closest('.game-card').querySelector('img.game-img').alt;
+        console.log(gameName); 
+        if (!!data && data.length > 0) {
+            const isSaved = data[0].game_name.includes(gameName);
+            if (isSaved) {
+                saveIcon.src = "assets/saved-icon.png"; // Change icon to filled
+            } else {
+                saveIcon.src = "assets/bookmark.png"; // Change icon to empty
+            }
+        } else {
+            saveIcon.src = "assets/bookmark.png"; // Default to empty icon if no saved games
+        }
+
+
+    });
+
+
+}
+
 function clickHandler(){
     var gamecardsave = document.querySelectorAll(".game-img-card> img.save-icon");
     gamecardsave.forEach((saveIcon) => {
+         
         saveIcon.addEventListener("click", (e) => {
             const gameName = e.target.closest('.game-card').querySelector('img.game-img').alt;
             console.log(gameName); 
+
 
             console.log(`Save icon clicked for game: ${gameName}`);
             saveGame(gameName, saveIcon);
@@ -391,7 +455,7 @@ function clickHandler(){
         });
     });
 } 
-clickHandler(); // Call clickHandler to add event listeners to save icons
+// Attach click handlers to save icons
 
 let arr=[1,2,3,4,5,6,7,8,9,10];
 const dict={};

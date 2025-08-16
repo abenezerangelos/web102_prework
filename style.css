@@ -1,9 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&display=swap');
+ 
 
 body {
     font-family: 'Cabin';
     background-color: #758190;
-    position: absolute; 
 }
 
 #search-results {
@@ -210,15 +209,15 @@ li.dropdown-item:focus {
 .game-img-card > img.save-icon{
   position:absolute;
   /* place it in the corner, inset a little */
-  top:.17rem;                  /* ↙ adjust these two values */
-  right:0.15rem;
+  top:.5rem;                  /* ↙ adjust these two values */
+  right:0.25rem;
 
   width:clamp(28px, 9%, 42px);/* scales with photo but never too tiny/huge */
   aspect-ratio: 1/1;
   aspect-ratio:1;
   opacity:1;                 /* watermark look — lower = lighter */
   pointer-events: visibleFill; /* optional white outline */
-  border-radius: 9px; 
+  border-radius: 4px; 
   transition: .2s ease; 
   /* optional glow that hugs the transparent shape */
   
@@ -261,20 +260,9 @@ li.dropdown-item:focus {
     justify-self: center;
     align-self: center;
     position: relative;
-    left:43%; 
-
+    left:43%;
 
 
     
-}
-div .card{
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    position:relative;
-}
-div.game-img-card > img.save-icon {
-    width: 35px;
-    height: 35px;
 }
  
