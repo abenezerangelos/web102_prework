@@ -78,3 +78,41 @@ userNameElement.textContent = username || "Guest"; // default to "Guest" if no u
 
  
 document.addEventListener("DOMContentLoaded", redirectToHomepage);
+
+//table structure for saved games
+async function displaySavedGames() {
+    const user = await currentUser();
+    if (!user) {
+        redirectToHomepage();
+        return;
+    }
+    const { data, error } = await supabase.from("saved_games").select('*').eq('user_id', user.id);
+    if (error) {
+        console.error("Error fetching saved games:", error);
+        return;
+    }
+    
+    const tableBody = document.getElementById("saved-games-table-body");
+    deleteChildElements(tableBody); // clear existing rows
+
+    data.forEach(game => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${game.game_name}</td>
+            <td>${game.created_at}</td>
+            <td>
+                <button class="btn btn-danger delete-btn" data-game-name="${game.game_name}">Delete</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+
+    // Add event listeners to delete buttons
+    document.querySelectorAll(".delete-btn").forEach(button => {
+        button.addEventListener("click", async (e) => {
+            const gameName = e.target.dataset.gameName;
+            await deleteSavedGame(gameName);
+            displaySavedGames(); // Refresh the saved games list
+        });
+    });
+}

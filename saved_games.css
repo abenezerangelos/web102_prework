@@ -1,0 +1,127 @@
+body {
+    font-family: 'Cabin';
+    background-color: #758190;
+}
+
+#search-results {
+    background-color: #FFFFFF;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #000000;
+    position: absolute;
+    top: 75px;
+    left: 50%;
+    transform: translateX(-118%);
+    width: 300px;
+    max-height: auto;
+    overflow-y: auto;
+    margin-left: 50%;
+}
+#search-bar {
+    width: 300px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin: 10px  0;
+    margin-left: 50%;
+
+    box-shadow: 0 0 10px #000000;
+    display: block;
+
+    
+    
+    /* align-content: end; */
+    
+    
+}
+#tentacles {
+    width: 50px; 
+}
+
+.header { 
+    display: flex;
+    background-color: lightblue;
+     
+    align-items: center;
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-top: -10px;
+}
+.header-text {
+    font-size: 30px;
+    color: #827e7d;
+    align-items: center;
+    
+    margin-right: 10px;
+
+    display: flex;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+    justify-content: center;
+    justify-self: center;
+    
+    
+}
+.header-link{
+    text-decoration: none;
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    max-width: fit-content;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    flex: 0 0 auto;
+    
+    
+
+}
+.header-link:hover .header-text {
+    text-decoration: none;
+    color: inherit;
+    text-shadow: #000000 0 0 10px;
+} 
+.header-link:hover #tentacles{  
+    filter: drop-shadow(0 0 10px #000000);
+
+}
+li.dropdown-item { 
+    cursor: pointer;
+    border-radius: 4px;
+    height: fit-content; 
+    text-wrap: wrap;
+}
+li.dropdown-item:hover {
+    background-color: #e2e6ea;
+}
+li.dropdown-item:focus {
+    outline: thin 1px #000000;
+    box-shadow: 0 0 5px #000000;
+}
+ 
+#user-icon {
+    display:block;
+    border-radius:  50%;
+    outline:4px solid #23a4ff;
+    outline-offset: -4.25px;
+}
+#user-dropdown-btn:hover #user-name  { 
+    -webkit-text-stroke: 0.15px #23a4ff; 
+    text-shadow: 0 0 5px #23a4ff;
+    paint-order: stroke fill;
+}
+#user-dropdown-btn:hover #user-icon  {
+    box-shadow: 0 0 10px #23a4ff;
+    cursor: pointer;
+}
+#user-dropdown-menu li {
+    background-color: #ADD8E6; 
+    border: #000000 1px solid;
+    border-radius: 4px;
+}
+#user-dropdown-menu li:hover{
+    text-shadow: #0095ff 0 0 10px;
+    color:white; 
+}

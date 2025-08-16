@@ -450,7 +450,16 @@ function clickHandler(){
 
 
             console.log(`Save icon clicked for game: ${gameName}`);
-            saveGame(gameName, saveIcon);
+            console.log(`Save icon src: ${saveIcon.src}`);
+            if (saveIcon.src=== "http://127.0.0.1:5500/assets/saved-icon.png") {
+                deleteSavedGame(gameName);
+                saveIcon.src = "assets/bookmark.png"; // Change icon to empty
+            }
+            else {
+                console.log(`Saving game: ${gameName}`);
+                saveGame(gameName, saveIcon);
+            }
+             
             // Update alt text
         });
     });
