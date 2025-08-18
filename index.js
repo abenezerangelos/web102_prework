@@ -405,11 +405,14 @@ async function deleteSavedGame(gameName) {
         return;
     }
 
-    const gameToDelete = data.find(item => item.game_name === gameName);
-    if (gameToDelete) {
-        const { error: deleteError } = await supabase.from("saved_games").delete().eq('id', gameToDelete.id);
-        if (deleteError) {
-            console.error("Error deleting saved game:", deleteError);
+    var gameToDelete = data[0].game_name;
+    console.log(`Game to delete: ${gameToDelete}`);
+    if (gameToDelete.includes(gameName)) {
+        const newGameList = gameToDelete.filter(name => name !== gameName);
+        console.log(`Deleting game: ${gameName}`);
+        const { data, error} = await supabase.from("saved_games").update({game_name: newGameList, updated_at: new Date().toISOString()}).eq('user_id', user.id);
+        if (!!error) {
+            console.error("Error deleting saved game:", error);
         } else {
             console.log(`Game deleted successfully: ${gameName}`);
         }
@@ -465,6 +468,7 @@ function clickHandler(){
     });
 } 
 // Attach click handlers to save icons
+
 
 let arr=[1,2,3,4,5,6,7,8,9,10];
 const dict={};
