@@ -321,26 +321,40 @@ function addGamesToUl() {
         li.appendChild(textNode); // Append the text after the image
         li.classList.add("dropdown-item");
         li.role = "button";
+        li.style.maxWidth = "300px"; // Set a max-width for the list item
         li.tabIndex = 0; // Make it focusable
         li.addEventListener("click", () => {
             searchInput.value = game.name; // set the input value to the selected game name
-            searchGames(); // call the search function to display the game
+            searchGames(); // call the search function to display the game 
+            scrolltoItem(); // Scroll to the searched item
             ul.hidden = true; // hide the search menu after selection
+
         });
         ul.appendChild(li);
     });
+    loader(); // Reload saved games icons after search
+    addSearchGamesClickHandler();
 }
 searchGames();
 searchInput.addEventListener("input", addGamesToUl);
 searchInput.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
-        searchGames();
+        searchGames();  // Reload saved games icons after search
+        scrolltoItem(); // Scroll to the searched item
         // clickHandler(); // Call clickHandler to add event listeners to save icons
 
           
     }
 }); 
- 
+function scrolltoItem() {
+    const searchfor = document.getElementById("search-bar").value.toLowerCase().trim();
+    const target = document.querySelectorAll(".game-img-card> img ");
+    target.forEach(img => {
+        if (img.alt.toLowerCase().includes(searchfor)) {
+            img.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+    });
+}
 
 const signoutBtn = document.getElementById("signout-btn");
 signoutBtn.addEventListener("click", async (e) => {
@@ -390,10 +404,11 @@ async function saveGame(gameName, saveIcon) {
             console.log(await supabase.from("saved_games").select('game_name') );
         }
     }
-    saveIcon.src = "assets/saved-icon.png"; // Change icon to filled
+    saveIcon.src = "assets/saved-icon.png"; // Change icon to filled2
     console.log(`Game ${gameName} saved successfully!`);
     const {data: go, error: stop} = await supabase.from("saved_games").select('game_name').eq('user_id', user.id);
     console.log(go[0].game_name);
+    loader(); // Reload saved games icons after saving
 
      
 }    
@@ -419,12 +434,34 @@ async function deleteSavedGame(gameName) {
     } else {
         console.log(`Game not found: ${gameName}`);
     }
+    loader(); // Reload saved games icons after deletion
 }
 async function loader(){
     var gamecardsave = document.querySelectorAll(".game-img-card> img.save-icon");
+    var searchsave = document.querySelectorAll("#search-item> img.save-icon");
     const { data, error } = await supabase.from("saved_games").select('game_name').eq('user_id', user.id);
+    searchsave.forEach((saveIcon) => {
+        const gameName = saveIcon.closest('#search-item').querySelector('img').alt.trim();
+        console.log(gameName);
+        // fallback (if structure changes)
+        // const gameName = saveIcon.closest('.game-card').querySelector('h2.game-name').textContent.trim();
+        if (!!data && data.length > 0) {
+            const isSaved = data[0].game_name.includes(gameName);
+            console.log(`Is game ${gameName} saved? ${isSaved}`);
+            if (isSaved) {  
+                saveIcon.src = "assets/saved-icon.png"; // Change icon to filled
+            } else {
+                saveIcon.src = "assets/bookmark.png"; // Change icon to empty
+            }
+        } else {
+            saveIcon.src = "assets/bookmark.png"; // Default to empty icon if no saved games
+        }
+    });
     gamecardsave.forEach((saveIcon) => {
-        const gameName = saveIcon.closest('.game-card').querySelector('img.game-img').alt;
+        const gameName = saveIcon.closest('.game-img-card').nextElementSibling?.textContent.trim();
+        console.log(gameName);
+        // fallback (if structure changes)
+        // const gameName = saveIcon.closest('.game-card').querySelector('h2.game-name').textContent.trim();
         console.log(gameName); 
         if (!!data && data.length > 0) {
             const isSaved = data[0].game_name.includes(gameName);
@@ -454,7 +491,7 @@ function clickHandler(){
 
             console.log(`Save icon clicked for game: ${gameName}`);
             console.log(`Save icon src: ${saveIcon.src}`);
-            if (saveIcon.src=== "http://127.0.0.1:5500/assets/saved-icon.png") {
+            if (saveIcon.src.includes("saved-icon.png")) {
                 deleteSavedGame(gameName);
                 saveIcon.src = "assets/bookmark.png"; // Change icon to empty
             }
@@ -466,9 +503,33 @@ function clickHandler(){
             // Update alt text
         });
     });
+     
 } 
 // Attach click handlers to save icons
-
+function addSearchGamesClickHandler() {
+    var searchsave = document.querySelectorAll("#search-item> img.save-icon");
+    searchsave.forEach((saveIcon) => {
+        saveIcon.addEventListener("click", (e) => {
+            e.stopPropagation(); // Prevent the click from bubbling up to the li
+            e.preventDefault(); // Prevent default action if any
+            e.stopImmediatePropagation(); // Stop any other click handlers from executing
+            const gameName = e.target.closest('#search-item').querySelector('img').alt;
+            console.log(gameName); 
+            console.log(`Save icon clicked for game: ${gameName}`);
+            console.log(`Save icon src: ${saveIcon.src}`);
+            if (saveIcon.src.includes("saved-icon.png")) {
+                deleteSavedGame(gameName);
+                saveIcon.src = "assets/bookmark.png"; // Change icon to empty
+            }
+            else {
+                console.log(`Saving game: ${gameName}`);
+                saveGame(gameName, saveIcon);
+            }
+             
+            // Update alt text
+        });
+    }); 
+}
 
 let arr=[1,2,3,4,5,6,7,8,9,10];
 const dict={};
