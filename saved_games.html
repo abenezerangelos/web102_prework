@@ -69,6 +69,50 @@
 
     <span class="saved-games-header">Saved Games</span>
     
+    <table>
+      <thead>
+        <tr>
+          <th>Game Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="saved-games-table-body">
+        <!-- Saved games will be populated here -->
+      </tbody>
+    </table>
+
+    <section id="saved-games" class="saved-games-section">      <h2 class="visually-hidden">Saved Game Cards</h2>
+      <div id="saved-games-grid" class="saved-games-grid"></div>
+    </section>
+
+
+
+    <template id="game-card-template">
+      <article class="game-img-card">
+      <figure class="game-media">
+        <img class="game-img" src="" alt="">
+        <img class='save-icon' src="assets/bookmark.png" alt="Save icon" aria-hidden="true"/>
+      </figure>
+      <div class="game-card-body">
+        <h3 class="game-title"></h3>
+        <p class="game-desc"></p>
+
+        <div class="game-progress-wrapper">
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width:0%"></div>
+        </div>
+        <div class="game-stats">
+          <span class="pledged" title="Pledged"></span>
+          <span class="goal" title="Goal"></span>
+          <span class="backers" title="Backers"></span>
+        </div>
+        </div>
+
+         
+      </div>
+      </article> 
+    </template>
+
     
     <script type="module" src="saved_games.js"></script>
      

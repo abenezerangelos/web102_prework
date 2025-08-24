@@ -1,6 +1,12 @@
 body {
     font-family: 'Cabin';
-    background-color: #758190;
+    background-color: #758190; 
+    margin:0;
+    
+    padding-top:7rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 #search-results {
@@ -18,7 +24,8 @@ body {
     margin-left: 50%;
 }
 #search-bar {
-    width: 300px;
+    max-width: 300px;
+    min-width: 370px;
     padding: 10px;
     border-radius: 5px;
     border: none;
@@ -38,15 +45,23 @@ body {
     width: 50px; 
 }
 
+ 
+
 .header { 
-    display: flex;
+    display:flex;
+    align-items:center;
     background-color: lightblue;
-     
-    align-items: center;
-    margin-left: -10px;
-    margin-right: -10px;
-    margin-top: -10px;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100vw;          /* span full viewport width */
+    min-height:3rem;
+    margin:0;
+    box-sizing:border-box;
+    z-index:1000;          /* stay above other content */
 }
+/* offset page content so it isn’t hidden behind fixed header */
+ 
 .header-text {
     font-size: 30px;
     color: #827e7d;
@@ -124,4 +139,168 @@ li.dropdown-item:focus {
 #user-dropdown-menu li:hover{
     text-shadow: #0095ff 0 0 10px;
     color:white; 
+}
+.saved-games-header{
+    font-size: 50px;
+    align-self: center  ;
+    justify-self: center;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 0.5s ease-in-out;
+ 
+}
+.saved-games-header:hover{
+    text-decoration-color: black;
+}
+
+.saved-games-section {
+width: 100%;
+margin: 2.5rem auto 3rem;
+padding: 0 1.25rem;
+box-sizing: border-box;
+}
+
+.saved-games-grid {
+--min-card-width: 240px;
+display: grid;
+gap: 1.25rem;
+grid-template-columns: repeat(auto-fill, minmax(var(--min-card-width), 1fr));
+align-items: start;
+}
+
+.game-card {
+display: flex;
+flex-direction: column;
+background: #ffffff;
+border: 1px solid #d6e2eb;
+border-radius: 14px;
+overflow: hidden;
+box-shadow: 0 3px 10px -4px rgba(0,0,0,.15);
+transition: box-shadow .18s ease, transform .18s ease;
+position: relative;
+min-height: 100%;
+}
+.game-card:focus-within,
+.game-card:hover {
+box-shadow: 0 6px 22px -6px rgba(0,0,0,.28);
+transform: translateY(-3px);
+}
+
+.game-media {
+position: relative;
+aspect-ratio: 16/9;
+margin: 0;
+background: linear-gradient(135deg,#8ad5ff,#4aa3ff);
+overflow: hidden;
+}
+.game-img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: block;
+transition: transform .5s ease;
+}
+.game-card:hover .game-img {
+transform: scale(1.06);
+}
+
+.game-card-body {
+display: flex;
+flex-direction: column;
+padding: .85rem .95rem 1rem;
+gap: .55rem;
+flex: 1 1 auto;
+}
+
+.game-title {
+font-size: 1.05rem;
+font-weight: 600;
+margin: 0;
+color: #073b5c;
+line-height: 1.25;
+}
+
+.game-desc {
+font-size: .8rem;
+line-height: 1.25;
+margin: 0;
+color: #3c5666;
+max-height: 3.2em;
+overflow: hidden;
+}
+
+.game-progress-wrapper {
+margin-top: auto;
+display: flex;
+flex-direction: column;
+gap: .45rem;
+}
+
+.progress {
+height: .55rem;
+background: #e3eef4;
+border-radius: 10px;
+overflow: hidden;
+margin: 0;
+}
+.progress-bar {
+background: linear-gradient(90deg,#1c9eff,#0072d9);
+}
+
+.game-stats {
+display: flex;
+flex-wrap: wrap;
+gap: .65rem;
+font-size: .68rem;
+font-weight: 600;
+letter-spacing: .3px;
+text-transform: uppercase;
+color: #1d5675;
+}
+.game-stats span {
+display: inline-flex;
+align-items: center;
+gap: .25rem;
+background: #f1f7fa;
+padding: .25rem .45rem;
+border-radius: 6px;
+}
+
+.card-actions {
+display: flex;
+gap: .5rem;
+margin-top: .4rem;
+}
+.card-actions .btn {
+flex: 1 1 0;
+font-size: .7rem;
+letter-spacing: .4px;
+white-space: nowrap;
+}
+
+@media (min-width: 1400px) {
+.saved-games-grid {
+--min-card-width: 260px;
+}
+}
+
+@media (max-width: 520px) {
+.saved-games-section {
+padding: 0 .75rem;
+}
+.game-desc {
+display: none;
+}
+}
+
+.visually-hidden {
+position: absolute;
+width: 1px;
+height: 1px;
+padding: 0;
+margin: -1px;
+overflow: hidden;
+clip: rect(0 0 0 0);
+white-space: nowrap;
+border: 0;
 }

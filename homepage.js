@@ -13,7 +13,7 @@ function toast(msg, type="info") {
   el.textContent = msg;
   el.dataset.type = type;
   el.style.opacity = "1";
-  setTimeout(()=> el.style.opacity = "0", 3200);
+  setTimeout(()=> el.style.opacity = "0", 3200); 
 }
 function showAuthState(signedIn) {
   document.querySelectorAll('[data-auth="signed-in"]').forEach(e => e.style.display = signedIn ? "" : "none");

@@ -97,8 +97,9 @@ const template = `
 "pledged": 0,
 "goal": 0,
 "backers": 0,
-"img": ""
-},
-`
+"img": "",
+src: "./assets/default_game.png"
+}
+`;
 
 export default games;
