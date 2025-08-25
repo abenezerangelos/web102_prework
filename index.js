@@ -6,27 +6,37 @@
 
 // import the JSON data about the crowd funded games from the games.js file
 import GAMES_DATA from './games.js';
+import { GAMES_JSON } from './games.js';
 import { currentUser } from './homepage.js';   
 import { redirectToHomepage } from './homepage.js';
 import { signout } from './homepage.js';
 import { supabase } from './homepage.js';
- 
-var GAMES_JSON;
+var root;
 var gamesContainer;
 var searchInput;
 var user;
+export function selectorDocument( doc){
+    root = doc || document;
+    gamesContainer = document.getElementById('games-container');
+    searchInput = root.querySelector("#search-bar");
+     
+      
+
+}
  
-export default async function init () { 
+selectorDocument(document) ; 
+export default async function init ( ) { 
+
     user =  await(async () => {
         var user = await currentUser();
         console.log("This current user:", user);
-        var userNameElement = document.getElementById("user-name");
+        var userNameElement = root.getElementById("user-name");
         userNameElement.textContent = user.username || "Guest"; // default to "Guest" if no username
         return user;
-    })(); 
+    })();  
     // create a list of objects to store the data about the games using JSON.parse
-    GAMES_JSON = JSON.parse(GAMES_DATA)
-    var signoutBtn = document.getElementById("signout-btn");
+     
+    var signoutBtn = root.getElementById("signout-btn");
     signoutBtn.addEventListener("click", async (e) => {
         e.preventDefault();
         try {
@@ -37,7 +47,7 @@ export default async function init () {
             console.error("Sign out failed:", error);
         }
     });
-    var contributionsCard = document.getElementById("num-contributions");
+    var contributionsCard = root.getElementById("num-contributions");
 
     // use reduce() to count the number of total contributions by summing the backers
     var totalContributions = GAMES_JSON.reduce((total, game) => total + game.backers, 0);
@@ -50,7 +60,7 @@ export default async function init () {
 
 
     // grab the amount raised card, then use reduce() to find the total amount raised
-    var raisedCard = document.getElementById("total-raised");
+    var raisedCard = root.getElementById("total-raised");
 
     var totalRaised = GAMES_JSON.reduce((total, game) => total + game.pledged, 0);
 
@@ -62,7 +72,7 @@ export default async function init () {
 
 
     // grab number of games card and set its inner HTML
-    var gamesCard = document.getElementById("num-games");
+    var gamesCard = root.getElementById("num-games");
     var totalGames = GAMES_JSON.length;
     gamesCard.innerHTML = `
         <p class="card-title">Total Games:${totalGames}</p>`
@@ -77,9 +87,9 @@ export default async function init () {
     // show only games that do not yet have enough funding
     
     // select each button in the "Our Games" section
-    var unfundedBtn = document.getElementById("unfunded-btn");
-    var fundedBtn = document.getElementById("funded-btn");
-    var allBtn = document.getElementById("all-btn");
+    var unfundedBtn = root.getElementById("unfunded-btn");
+    var fundedBtn = root.getElementById("funded-btn");
+    var allBtn = root.getElementById("all-btn");
 
     // add event listeners with the correct functions to each button
     unfundedBtn.addEventListener("click", filterUnfundedOnly);
@@ -93,7 +103,7 @@ export default async function init () {
     */
 
     // grab the description container
-    var descriptionContainer = document.getElementById("description-container");
+    var descriptionContainer = root.getElementById("description-container");
 
     // use filter or reduce to count the number of unfunded games
 
@@ -108,7 +118,7 @@ export default async function init () {
 
 
     // create a new DOM element containing the template string and append it to the description container
-    var descriptionElement = document.createElement("p");
+    var descriptionElement = root.createElement("p");
     descriptionElement.innerHTML = displaystr;
     descriptionContainer.appendChild(descriptionElement);
 
@@ -120,8 +130,8 @@ export default async function init () {
      
  
 
-    var firstGameContainer = document.getElementById("first-game");
-    var secondGameContainer = document.getElementById("second-game");
+    var firstGameContainer = root.getElementById("first-game");
+    var secondGameContainer = root.getElementById("second-game");
 
     var sortedGames =  GAMES_JSON.sort( (item1, item2) => {
         return item2.pledged - item1.pledged;
@@ -132,8 +142,9 @@ export default async function init () {
     console.log(...rest);
     console.log(topGame, runnerUpGame);
 
+    gamesContainer = root.getElementById("games-container");
     // create a new element to hold the name of the top pledge game, then append it to the correct element
-    var firstGameElement=document.createElement("p");
+    var firstGameElement=root.createElement("p");
     firstGameElement.innerHTML = `
         <strong>${topGame.name}</strong> - $${topGame.pledged.toLocaleString()} pledged
     `;
@@ -142,7 +153,7 @@ export default async function init () {
 
 
     // do the same for the runner up item
-    var secondGameElement=document.createElement("p");
+    var secondGameElement=root.createElement("p");
     secondGameElement.innerHTML = `
         <strong>${runnerUpGame.name}</strong> - $${runnerUpGame.pledged.toLocaleString()} pledged
     `;
@@ -155,11 +166,15 @@ export default async function init () {
     */
 
 
-    gamesContainer = document.getElementById("games-container");document.addEventListener("DOMContentLoaded", redirectToHomepage);
+     
+    root.addEventListener("DOMContentLoaded", redirectToHomepage);
     addGamesToPage(GAMES_JSON);  
 
 
-    searchInput = document.getElementById("search-bar");
+     
+    searchGameseventlisteners();
+}
+export function searchGameseventlisteners(){
     searchGames();
     searchInput.addEventListener("input", addGamesToUl);
     searchInput.addEventListener("keypress", (event) => {
@@ -171,7 +186,8 @@ export default async function init () {
             
         }
     }); 
-    
+
+
 }
 
 // remove all child elements from a parent element in the DOM
@@ -184,6 +200,7 @@ export function searchGames() {
     // grab the search input element
     
     
+     
     var searchTerm = searchInput.value.toLowerCase().trim();
     console.log(searchTerm);
 
@@ -191,13 +208,15 @@ export function searchGames() {
     var filteredGames = GAMES_JSON.filter(game => game.name.toLowerCase().includes(searchTerm));
      
     // clear the games container and add the filtered games to the page
+ 
     deleteChildElements(gamesContainer);
     addGamesToPage(filteredGames);
       // Re-attach click handlers to save icons after filtering
 }
 // grab the search button and add an event listener to it 
-export function addGamesToUl() {
-    var UlElement = document.getElementById("search-menu");
+export async function addGamesToUl( ) { 
+    var searchInput = root.querySelector("#search-bar");
+    var UlElement = root.getElementById("search-menu");
     UlElement.hidden = false; // show the search menu
     var searchTerm = searchInput.value.toLowerCase().trim();
     console.log(searchTerm);  // filter the games based on the search term
@@ -205,18 +224,18 @@ export function addGamesToUl() {
     if (searchTerm === "") {
         filteredGames =  [];
     }
-    var ul = document.getElementById("search-menu");
+    var ul = root.getElementById("search-menu");
     if (!ul) return;
     deleteChildElements(ul);
     filteredGames.forEach(game => {
-        var li = document.createElement("li");
+        var li = root.createElement("li");
         li.id = "search-item";
         li.style.height = "40px";
         li.style.display = "flex";
         li.style.alignItems = "center";
         li.style.position = "relative";
 
-        var img = document.createElement("img");
+        var img = root.createElement("img");
         li.style.display = "flex";
         li.style.flexDirection = "row"; // Ensure the image and text are in a row
 
@@ -229,14 +248,14 @@ export function addGamesToUl() {
         img.style.alignSelf = "center";
         img.alt = game.name;
 
-        var saveIcon = document.createElement("img");
+        var saveIcon = root.createElement("img");
         saveIcon.className = "save-icon";
         saveIcon.src = "assets/bookmark.png";
         saveIcon.alt = "Save icon"; 
 
         li.appendChild(img); // Append the image first
         li.appendChild(saveIcon); // Append the save icon
-        var textNode = document.createTextNode(game.name); // Create a text node for the game name
+        var textNode = root.createTextNode(game.name); // Create a text node for the game name
         li.appendChild(textNode); // Append the text after the image
         li.classList.add("dropdown-item");
         li.role = "button";
@@ -255,9 +274,9 @@ export function addGamesToUl() {
     addSearchGamesClickHandler();
 }
  
-export function scrolltoItem() {
-    var searchfor = document.getElementById("search-bar").value.toLowerCase().trim();
-    var target = document.querySelectorAll(".game-img-card img ");
+export function scrolltoItem( ) {
+    var searchfor = root.getElementById("search-bar").value.toLowerCase().trim();
+    var target = root.querySelectorAll(".game-img-card img ");
     target.forEach(img => {
         if (img.alt.toLowerCase().includes(searchfor)) {
             img.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -335,9 +354,17 @@ export async function deleteSavedGame(gameName) {
     }
     loader(); // Reload saved games icons after deletion
 }
-export async function loader(){
-    var gamecardsave = document.querySelectorAll(".game-img-card img.save-icon");
-    var searchsave = document.querySelectorAll("#search-item img.save-icon");
+//this function basically works after the pageis lodaed and it puts the icons on the cards
+export async function loader( ){
+    user =  await(async () => {
+        var user = await currentUser();
+        console.log("This current user:", user);
+        var userNameElement = root.getElementById("user-name");
+        userNameElement.textContent = user.username || "Guest"; // default to "Guest" if no username
+        return user;
+    })(); 
+    var gamecardsave = root.querySelectorAll(".game-img-card img.save-icon");
+    var searchsave = root.querySelectorAll("#search-item img.save-icon");
     var { data, error } = await supabase.from("saved_games").select('game_name').eq('user_id', user.id);
     searchsave.forEach((saveIcon) => {
         var gameName = saveIcon.closest('#search-item').querySelector('img').alt.trim();
@@ -357,7 +384,7 @@ export async function loader(){
         }
     });
     gamecardsave.forEach((saveIcon) => {
-        var gameName = saveIcon.closest('.game-img-card').nextElementSibling?.textContent.trim();
+        var gameName = saveIcon.closest('.game-img-card').querySelector('img').alt.trim();
         console.log(gameName);
         // fallback (if structure changes)
         // var gameName = saveIcon.closest('.game-card').querySelector('h2.game-name').textContent.trim();
@@ -379,8 +406,8 @@ export async function loader(){
 
 }
 
-export function clickHandler(){
-    var gamecardsave = document.querySelectorAll(".game-img-card  img.save-icon");
+export function clickHandler(  ){
+    var gamecardsave = root.querySelectorAll(".game-img-card img.save-icon");
     gamecardsave.forEach((saveIcon) => {
          
         saveIcon.addEventListener("click", (e) => {
@@ -405,8 +432,8 @@ export function clickHandler(){
      
 } 
 // Attach click handlers to save icons
-export function addSearchGamesClickHandler() {
-    var searchsave = document.querySelectorAll("#search-item img.save-icon");
+export function addSearchGamesClickHandler( ) {
+    var searchsave = root.querySelectorAll("#search-item img.save-icon");
     searchsave.forEach((saveIcon) => {
         saveIcon.addEventListener("click", (e) => {
             e.stopPropagation(); // Prevent the click from bubbling up to the li
@@ -455,7 +482,7 @@ function addGamesToPage(games) {
         // create a new div element, which will become the game card
     for (let game of games) {
         
-        let element=document.createElement("div");
+        let element=root.createElement("div");
         elements.push(element);
         
      

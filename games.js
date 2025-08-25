@@ -102,4 +102,7 @@ src: "./assets/default_game.png"
 }
 `;
 
+export const GAMES_JSON = JSON.parse(games);
+
 export default games;
+

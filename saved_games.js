@@ -1,15 +1,14 @@
 import GAMES_DATA from './games.js';
 import { currentUser } from './homepage.js';   
 import { redirectToHomepage } from './homepage.js';
-import { loader,saveGame,scrolltoItem,deleteSavedGame,addGamesToUl,addSearchGamesClickHandler,searchGames } from './index.js';
+import { loader,saveGame,scrolltoItem,deleteSavedGame,addGamesToUl,addSearchGamesClickHandler,searchGames,selectorDocument } from './index.js';
 import { supabase } from './homepage.js'; 
 
 // create a list of objects to store the data about the games using JSON.parse
-const GAMES_JSON = JSON.parse(GAMES_DATA)
+const GAMES_JSON = JSON.parse(GAMES_DATA);
 
 // remove all child elements from a parent element in the DOM
- 
-var searchInput = document.getElementById("search-bar");
+  
 // implement a search function that allows users to search for a game by name
  
 // grab the search button and add an event listener to it
@@ -46,7 +45,7 @@ async function displaySavedGames() {
         const row = document.createElement("tr");
         row.innerHTML = `
             <td>${game.game_name}</td>
-            <td>${game.created_at}</td>
+            <td>${Date(game.updated_at).toString() }</td>
             <td>
                 <button class="btn btn-danger delete-btn" data-game-name="${game.game_name}">Delete</button>
             </td>
@@ -58,17 +57,20 @@ async function displaySavedGames() {
     const savedGamesGrid = document.getElementById("saved-games-grid");
 
     GAMES_JSON.forEach(game => {
-    const gameCard = document.getElementById("game-card-template").content.cloneNode(true);
+    const gameCard = document.getElementById("games-container").content.cloneNode(true);
     gameCard.querySelector(".game-img").src = game.img;
-    gameCard.querySelector(".game-title").textContent = game.title;
-    gameCard.querySelector(".game-desc").textContent = game.desc;
+    gameCard.querySelector(".game-title").textContent = game.name; 
     gameCard.querySelector(".progress-bar").style.width = `${game.progress}%`;
     gameCard.querySelector(".pledged").textContent = `$${game.pledged}`;
     gameCard.querySelector(".goal").textContent = `$${game.goal}`;
     gameCard.querySelector(".backers").textContent = game.backers;
 
     savedGamesGrid.appendChild(gameCard);
-    });
+    });  
+    selectorDocument(document); 
+    addGamesToUl();
+
+
 
     // Add event listeners to delete buttons
     // document.querySelectorAll(".delete-btn").forEach(button => {

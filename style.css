@@ -166,6 +166,9 @@ li.dropdown-item {
     height: fit-content; 
     text-wrap: wrap;
     max-width: min-content;
+    white-space: nowrap;       /* no wrapping */
+  overflow: hidden;          /* hide overflow */
+  text-overflow: ellipsis;
 
 }
 li.dropdown-item:hover {
