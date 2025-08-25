@@ -13,12 +13,13 @@ import { signout } from './homepage.js';
 import { supabase } from './homepage.js';
 var root;
 var gamesContainer;
-var searchInput;
+var searchInput; 
 var user;
 export function selectorDocument( doc){
     root = doc || document;
-    gamesContainer = document.getElementById('games-container');
+    gamesContainer = root.getElementById('games-container');
     searchInput = root.querySelector("#search-bar");
+
      
       
 
@@ -27,7 +28,7 @@ export function selectorDocument( doc){
 selectorDocument(document) ; 
 export default async function init ( ) { 
 
-    user =  await(async () => {
+    var user =  await(async () => {
         var user = await currentUser();
         console.log("This current user:", user);
         var userNameElement = root.getElementById("user-name");
