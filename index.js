@@ -18,9 +18,9 @@ var user;
 export function selectorDocument( doc){
     root = doc || document;
     gamesContainer = root.getElementById('games-container');
-    searchInput = root.querySelector("#search-bar");
-
-     
+    searchInput = root.querySelector("#search-bar"); 
+    
+    
       
 
 }
@@ -28,13 +28,17 @@ export function selectorDocument( doc){
 selectorDocument(document) ; 
 export default async function init ( ) { 
 
-    var user =  await(async () => {
+    user =  await(async () => {
         var user = await currentUser();
         console.log("This current user:", user);
+        if (!user){
+            redirectToHomepage();
+            return;
+        }
         var userNameElement = root.getElementById("user-name");
         userNameElement.textContent = user.username || "Guest"; // default to "Guest" if no username
         return user;
-    })();  
+    })();   
     // create a list of objects to store the data about the games using JSON.parse
      
     var signoutBtn = root.getElementById("signout-btn");
